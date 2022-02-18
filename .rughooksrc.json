@@ -1,0 +1,12 @@
+{
+  "forbiddenTokens": {
+    "fit": true,
+    "fdescribe": true,
+    "only": true,
+    "debugger": true
+  },
+  "lockfile": {
+    "path": "./package-lock.json",
+    "version": 2
+  }
+}
