@@ -1,3 +1,3 @@
 export * from './checker';
-export * from './forbidden-tokens.checker';
-export * from './lockfile-version.checker';
+export { ForbiddenTokensChecker } from './forbidden-tokens.checker';
+export { LockfileVersionChecker } from './lockfile-version.checker';

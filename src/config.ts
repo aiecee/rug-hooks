@@ -1,17 +1,25 @@
 import * as fs from 'fs';
 import * as winston from 'winston';
 
-export interface Config {
-  forbiddenTokens?: {
-    fit: boolean;
-    fdescribe: boolean;
-    only: boolean;
-    debugger: boolean;
-  };
-  lockfile?: {
-    path: string;
-    version: number;
-  };
+export interface KeyedConfig {
+  [key: string]: any;
+}
+
+export interface ForbiddenTokensConfig extends KeyedConfig {
+  fit?: boolean;
+  fdescribe?: boolean;
+  only?: boolean;
+  debugger?: boolean;
+}
+
+export interface LockfileConfig extends KeyedConfig {
+  path?: string;
+  version?: number;
+}
+
+export interface Config extends KeyedConfig {
+  forbiddenTokens?: ForbiddenTokensConfig;
+  lockfile?: LockfileConfig;
 }
 
 export const defaultConfig: Config = {

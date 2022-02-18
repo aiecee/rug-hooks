@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { ForbiddenTokensChecker } from './forbidden-tokens.checker';
+import { ForbiddenTokensChecker, defaultOptions } from './forbidden-tokens.checker';
 
 describe('Forbidden Tokens Checker', () => {
   let getStagedChanges: jest.Mock;
@@ -14,6 +14,9 @@ describe('Forbidden Tokens Checker', () => {
   let gitUtils: any;
   let fileSystemUtils: any;
   let logger: any;
+  const options = {
+    forbiddenTokens: defaultOptions,
+  };
 
   beforeAll(() => {
     getStagedChanges = jest.fn();
@@ -51,7 +54,7 @@ describe('Forbidden Tokens Checker', () => {
 		debugger;`,
     );
 
-    const results = await forbiddenTokenChecker.run();
+    const results = await forbiddenTokenChecker.run(options);
     expect(results.success).toBe(false);
     expect(results.fails?.length).toBe(4);
   });
@@ -64,7 +67,7 @@ describe('Forbidden Tokens Checker', () => {
 		it("Some it", () => {})`,
     );
 
-    const results = await forbiddenTokenChecker.run();
+    const results = await forbiddenTokenChecker.run(options);
     expect(results.success).toBe(true);
     expect(results.fails).toBe(undefined);
   });
@@ -73,7 +76,7 @@ describe('Forbidden Tokens Checker', () => {
     getStagedChanges.mockImplementation(() => ['tests.spec.ts']);
     exists.mockImplementation((_path: string) => false);
 
-    const results = await forbiddenTokenChecker.run();
+    const results = await forbiddenTokenChecker.run(options);
     expect(getStagedChanges).toHaveBeenCalledTimes(1);
     expect(exists).toHaveBeenCalledTimes(1);
     expect(readFile).not.toHaveBeenCalled();
@@ -85,7 +88,7 @@ describe('Forbidden Tokens Checker', () => {
     exists.mockImplementation((_path: string) => true);
     readFile.mockImplementation((_path: string) => 'fdescribe("Some describe", () => {})');
 
-    const results = await forbiddenTokenChecker.run({ fdescribe: false });
+    const results = await forbiddenTokenChecker.run({ ...options, forbiddenTokens: { fdescribe: false } });
     expect(results.success).toBe(true);
     expect(results.fails).toBe(undefined);
   });

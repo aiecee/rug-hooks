@@ -1,11 +1,12 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { inject, injectable } from 'tsyringe';
 import { Logger } from 'winston';
+import { Config, ForbiddenTokensConfig } from '../config';
 
 import { FileSystemUtils } from '../utils/file-system.utils';
 import { GitUtils } from '../utils/git.utils';
 
-import { Checker, CheckerResults, RunOptions } from './checker';
+import { Checker, CheckerResults } from './checker';
 
 type Rule = {
   regex: RegExp;
@@ -16,7 +17,7 @@ type TokenRuleMap = {
   [token: string]: Rule;
 };
 
-const defaultOptions: RunOptions = {
+export const defaultOptions: ForbiddenTokensConfig = {
   fit: true,
   fdescribe: true,
   only: true,
@@ -45,9 +46,9 @@ export class ForbiddenTokensChecker implements Checker {
     @inject('Logger') private logger: Logger,
   ) {}
 
-  public async run(options?: RunOptions): Promise<CheckerResults> {
+  public async run(config: Config): Promise<CheckerResults> {
     this.logger.debug('Running ForbiddenTokensChecker');
-    const runOptions = _.defaults(options, defaultOptions);
+    const runOptions: ForbiddenTokensConfig = _.defaults(config.forbiddenTokens, defaultOptions);
 
     const rules: Array<string> = [];
     Object.keys(runOptions).forEach((key) => {
