@@ -1,0 +1,4 @@
+# ignore typescript
+src
+src/
+src/*
