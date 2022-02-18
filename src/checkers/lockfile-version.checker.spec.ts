@@ -7,14 +7,18 @@ import { LockfileVersionChecker } from './lockfile-version.checker';
 fdescribe('Lockfile Version Checker', () => {
   let exists: jest.Mock;
   let readFile: jest.Mock;
+  let debug: jest.Mock;
   let lockfileVersionChecker: LockfileVersionChecker;
 
   let fileSystemUtils: any;
+  let logger: any;
 
   beforeAll(() => {
     exists = jest.fn();
     readFile = jest.fn();
+    debug = jest.fn();
     fileSystemUtils = { exists, readFile };
+    logger = { debug };
   });
 
   beforeEach(() => {
@@ -23,6 +27,7 @@ fdescribe('Lockfile Version Checker', () => {
 
     container.clearInstances();
     container.registerInstance('FileSystemUtils', fileSystemUtils);
+    container.registerInstance('Logger', logger);
 
     lockfileVersionChecker = container.resolve(LockfileVersionChecker);
   });

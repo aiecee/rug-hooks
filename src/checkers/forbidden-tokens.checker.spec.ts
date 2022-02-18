@@ -8,10 +8,12 @@ describe('Forbidden Tokens Checker', () => {
   let getStagedChanges: jest.Mock;
   let exists: jest.Mock;
   let readFile: jest.Mock;
+  let debug: jest.Mock;
   let forbiddenTokenChecker: ForbiddenTokensChecker;
 
   let gitUtils: any;
   let fileSystemUtils: any;
+  let logger: any;
 
   beforeAll(() => {
     getStagedChanges = jest.fn();
@@ -20,6 +22,9 @@ describe('Forbidden Tokens Checker', () => {
     exists = jest.fn();
     readFile = jest.fn();
     fileSystemUtils = { exists, readFile };
+
+    debug = jest.fn();
+    logger = { debug };
   });
 
   beforeEach(() => {
@@ -30,6 +35,7 @@ describe('Forbidden Tokens Checker', () => {
     container.clearInstances();
     container.registerInstance('GitUtils', gitUtils);
     container.registerInstance('FileSystemUtils', fileSystemUtils);
+    container.registerInstance('Logger', logger);
 
     forbiddenTokenChecker = container.resolve(ForbiddenTokensChecker);
   });
