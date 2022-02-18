@@ -1,7 +1,7 @@
-import * as fs from "fs";
-import * as winston from "winston";
+import * as fs from 'fs';
+import * as winston from 'winston';
 
-import {defaultConfig} from "../config";
+import { defaultConfig } from '../config';
 
 export const initAction = (logger: winston.Logger) => (path: string) => {
   logger.debug(`Creating default config at: ${path}`);
@@ -11,4 +11,4 @@ export const initAction = (logger: winston.Logger) => (path: string) => {
   }
   fs.writeFileSync(path, JSON.stringify(defaultConfig, null, 2));
   logger.debug(`Default config created at: ${path}`);
-}
+};
