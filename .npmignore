@@ -2,3 +2,15 @@
 src
 src/
 src/*
+
+tsconfig.json
+
+jest.config.json
+
+.eslintrc.json
+
+.prettierrc.json
+
+.rughooksrc.json
+
+.vscode
